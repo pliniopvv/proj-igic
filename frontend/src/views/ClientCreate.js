@@ -1,11 +1,15 @@
 import { faker } from "@faker-js/faker";
-import { useState } from "react";
+import React from "react";
 import { Col, Row, Container, Form, InputGroup, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import Constants from "../constants";
+import AlertToast from "../components/alert-toast";
+import ReactDOM from 'react-dom/client';
 
-const API = `https://localhost:7009/api/Person`;
+const API = `${Constants.BASE_API}/api/Person`;
 
 function ClientCreate() {
+
 
     //const [person, setPerson] = useState('');
     const  { register, handleSubmit, setValue } = useForm();
@@ -31,12 +35,16 @@ function ClientCreate() {
                 },
             body: JSON.stringify(person)
         }).then(r => {
-            console.log("ok", r);
+            const rootAlerts = ReactDOM.createRoot(document.getElementById('alerttoasts'));
+            rootAlerts.render(
+            <AlertToast personNome={person.primeiroNome} mensagem={`${person.primeiroNome} criado com sucesso.`} />
+            );
+            setTimeout(() => rootAlerts.unmount(), 2000);
         }).catch(e => {
             console.error("error", e);
         })
 
-      //  return setPerson(JSON.stringify(person));
+
     }
 
     function doFaker() {
@@ -49,8 +57,8 @@ function ClientCreate() {
         let n = faker.date.birthdate();
         let ano = n.getFullYear();
         let mes = n.getMonth()+1;
-        let dia = n.getDay()+1;
-        let data = ano + "-" + (mes <= 9 ? "0"+mes : mes) + "-" + (dia <= 9 ? "0"+dia : dia);
+        let dia = n.getDate();
+        let data = ano + "-" + (mes <= 9 ? "0"+mes : mes) + "-" + (dia <= 9 ? "0"+dia : dia); // formato yyyy-MM-dd
         setValue("nascimento", data);
 
         let sexoHomem = faker.number.int(1);
@@ -149,6 +157,7 @@ function ClientCreate() {
                     </Col>
                 </Row>
             </Form>
+            <div id="alerttoasts"></div>
         </Container>
     )
 }

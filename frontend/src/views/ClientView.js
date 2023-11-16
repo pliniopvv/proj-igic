@@ -1,8 +1,9 @@
 import { Accordion, Container } from "react-bootstrap";
 import PersonAccordeon from "../components/PersonAccordion";
 import { useEffect, useState } from "react";
+import Constants from "../constants";
 
-const API = `https://localhost:7009/api/Person`;
+const API = `${Constants.BASE_API}/api/Person`;
 
 function ClientView() {
 
@@ -15,6 +16,7 @@ function ClientView() {
         .then(res => res.json())
         .then(_persons => {
             setPersons(_persons);
+            console.log(_persons);
         }).catch(e => {
             console.error("error", e);
         });

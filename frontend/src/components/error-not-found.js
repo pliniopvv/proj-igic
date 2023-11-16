@@ -1,4 +1,5 @@
 
+import { Container } from "react-bootstrap";
 import { useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
@@ -6,12 +7,14 @@ export default function ErrorPage() {
   console.error(error);
 
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.statusText || error.message}</i>
-      </p>
-    </div>
-  );
+    <Container>
+      <div id="error-page" className="mt-4">
+        <h1>Oops! 404</h1>
+        <p>Desculpe, Página não encontrada!</p>
+        <p>
+          <i>{error.statusText || error.message}</i>
+        </p>
+      </div>
+    </Container>
+    );
 }

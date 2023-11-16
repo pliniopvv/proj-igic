@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { faker } from "@faker-js/faker";
-import { useState } from "react";
 import { Col, Row, Container, Form, InputGroup, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import Constants from "../constants";
+import AlertToast from "../components/alert-toast";
+import ReactDOM from "react-dom/client";
 
-const API = `https://localhost:7009/api/Person`;
+const API = `${Constants.BASE_API}/api/Person`;
 
 function ClientEdit() {
   let { personId } = useParams();
@@ -34,7 +36,7 @@ function ClientEdit() {
     let n = faker.date.birthdate();
     let ano = n.getFullYear();
     let mes = n.getMonth() + 1;
-    let dia = n.getDay() + 1;
+    let dia = n.getDate();
     let data =
       ano +
       "-" +
@@ -59,7 +61,6 @@ function ClientEdit() {
   }
 
   function fillForm(person) {
-
     setValue("id", person.id);
 
     let primeiroNome = person.primeiroNome;
@@ -71,13 +72,14 @@ function ClientEdit() {
     let n = new Date(person.nascimento);
     let ano = n.getFullYear();
     let mes = n.getMonth() + 1;
-    let dia = n.getDay() + 1;
+    let dia = n.getDate()+1;
     let data =
       ano +
       "-" +
       (mes <= 9 ? "0" + mes : mes) +
       "-" +
-      (dia <= 9 ? "0" + dia : dia);
+      ((dia) <= 9 ? "0" + dia : dia);
+    console.log(data);
     setValue("nascimento", data);
 
     let sexoHomem = person.sexoHomem ? 1 : 0;
@@ -107,8 +109,7 @@ function ClientEdit() {
       person.sexoMulher = undefined;
       person.sexoHomem = false;
     }
-
-    fetch(API+"/"+person.id, {
+    fetch(API + "/" + person.id, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -117,12 +118,20 @@ function ClientEdit() {
       body: JSON.stringify(person),
     })
       .then((r) => {
-        console.log("ok", r);
+        const rootAlerts = ReactDOM.createRoot(
+          document.getElementById("alerttoasts")
+        );
+        rootAlerts.render(
+          <AlertToast
+            personNome={person.primeiroNome}
+            mensagem={`${person.primeiroNome} alterado com sucesso.`}
+          />
+        );
+        setTimeout(() => rootAlerts.unmount(), 2000);
       })
       .catch((e) => {
         console.error("error", e);
       });
-
   }
 
   return (
@@ -232,6 +241,7 @@ function ClientEdit() {
           </Col>
         </Row>
       </Form>
+      <div id="alerttoasts"></div>
     </Container>
   );
 }

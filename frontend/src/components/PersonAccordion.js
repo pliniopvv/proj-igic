@@ -5,10 +5,9 @@ function PersonAccordion({person, accordeonId}) {
 
   function fdate(sdt) {
     let dt = new Date(sdt);
-    return dt.getDay() + "/" + (dt.getMonth()) + "/" + dt.getFullYear();
+    console.log(dt.getDate())
+    return (dt.getDate()+1) + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear();
   }
-
-  console.log(accordeonId);
 
   return (
       <Accordion.Item eventKey={accordeonId}>
@@ -33,7 +32,7 @@ function PersonAccordion({person, accordeonId}) {
               Segundo nome:
             </Col>
             <Col>
-              {person.primeiroNome}
+              {person.sobrenome}
             </Col>
           </Row>
           <Row>
