@@ -228,7 +228,7 @@ function ClientEdit() {
         </Row>
         <Row>
           <Col className="text-end mt-3">
-            <Button type="submit">Criar</Button>
+            <Button type="submit">Salvar</Button>
           </Col>
         </Row>
       </Form>
