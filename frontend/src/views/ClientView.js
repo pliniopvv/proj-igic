@@ -16,7 +16,6 @@ function ClientView() {
         .then(res => res.json())
         .then(_persons => {
             setPersons(_persons);
-            console.log(_persons);
         }).catch(e => {
             console.error("error", e);
         });

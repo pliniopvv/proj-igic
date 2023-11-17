@@ -10,15 +10,28 @@ const API = `${Constants.BASE_API}/api/Person`;
 
 function ClientCreate() {
 
+    function setSexHomem(val) {
+        let sh = document.querySelector("#sexo-homem");
+        let sm = document.querySelector("#sexo-mulher");
+        sh.checked = false;
+        sm.checked = false;
+        setValue('sexoHomem', val);
+        sh.checked = val;
+        sm.checked = !val;
+      }
+    
+      function cmen() {
+        setSexHomem(true);
+      }
+    
+      function cwmen() {
+        setSexHomem(false);
+      }
 
     //const [person, setPerson] = useState('');
     const  { register, handleSubmit, setValue } = useForm();
 
     function createPerson(person) {
-        /**
-         * O react-hook-form não possui o componente radio na documentação.
-         * Resolvi salvando, apenas, a informação de que se é homem ou não.
-         */
         if (person.sexoHomem == "on") {
             person.sexoMulher = undefined;
             person.sexoHomem = true;
@@ -107,20 +120,22 @@ function ClientCreate() {
                         <Form.Label>Gênero Sexual:</Form.Label>
                     </Col>
                     <Col>
-                        <Form.Check // prettier-ignore
+                        <Form.Check
                             type="radio"
                             id={`sexo-homem`}
                             name="sexo"
                             label={`Homem`}
+                            onClick={cmen}
                             {...register('sexoHomem')}
                         />
                     </Col>
                     <Col>
-                        <Form.Check // prettier-ignore
+                        <Form.Check
                             type="radio"
                             id={`sexo-mulher`}
                             name="sexo"
                             label={`Mulher`}
+                            onClick={cwmen}
                             {...register('sexoMulher')}
                         />
                     </Col>

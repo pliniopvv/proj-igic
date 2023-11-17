@@ -11,7 +11,7 @@ const API = `${Constants.BASE_API}/api/Person`;
 
 function ClientEdit() {
   let { personId } = useParams();
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, getValues } = useForm();
 
   useEffect(() => {
     fetch(API + `/` + personId, {
@@ -79,7 +79,7 @@ function ClientEdit() {
       (mes <= 9 ? "0" + mes : mes) +
       "-" +
       ((dia) <= 9 ? "0" + dia : dia);
-    console.log(data);
+
     setValue("nascimento", data);
 
     let sexoHomem = person.sexoHomem ? 1 : 0;
@@ -98,10 +98,6 @@ function ClientEdit() {
   }
 
   function createPerson(person) {
-    /**
-     * O react-hook-form não possui o componente radio na documentação.
-     * Resolvi salvando, apenas, a informação de que se é homem ou não.
-     */
     if (person.sexoHomem == "on") {
       person.sexoMulher = undefined;
       person.sexoHomem = true;
@@ -132,6 +128,25 @@ function ClientEdit() {
       .catch((e) => {
         console.error("error", e);
       });
+  }
+
+
+  function setSexHomem(val) {
+    let sh = document.querySelector("#sexo-homem");
+    let sm = document.querySelector("#sexo-mulher");
+    sh.checked = false;
+    sm.checked = false;
+    setValue('sexoHomem', val);
+    sh.checked = val;
+    sm.checked = !val;
+  }
+
+  function cmen() {
+    setSexHomem(true);
+  }
+
+  function cwmen() {
+    setSexHomem(false);
   }
 
   return (
@@ -179,20 +194,22 @@ function ClientEdit() {
             <Form.Label>Gênero Sexual:</Form.Label>
           </Col>
           <Col>
-            <Form.Check // prettier-ignore
+            <Form.Check
               type="radio"
               id={`sexo-homem`}
               name="sexo"
               label={`Homem`}
+              onClick={(cmen)}
               {...register("sexoHomem")}
             />
           </Col>
           <Col>
-            <Form.Check // prettier-ignore
+            <Form.Check
               type="radio"
               id={`sexo-mulher`}
               name="sexo"
               label={`Mulher`}
+              onClick={(cwmen)}
               {...register("sexoMulher")}
             />
           </Col>

@@ -5,7 +5,6 @@ function PersonAccordion({person, accordeonId}) {
 
   function fdate(sdt) {
     let dt = new Date(sdt);
-    console.log(dt.getDate())
     return (dt.getDate()+1) + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear();
   }
 
