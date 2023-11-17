@@ -1,5 +1,6 @@
 import { Button, Col, Row } from 'react-bootstrap';
 import Accordion from 'react-bootstrap/Accordion';
+import { NavLink } from 'react-router-dom';
 
 function PersonAccordion({person, accordeonId}) {
 
@@ -77,9 +78,9 @@ function PersonAccordion({person, accordeonId}) {
           <Row>
             <Col>
             <div className="d-grid gap-2 mt-2">
-              <Button variant="info" size="xs" href={`/editar/${person.id}`} >
+              <NavLink className="btn btn-info" variant="info" size="xs" to={`/editar/${person.id}`} >
                 Editar
-              </Button>
+              </NavLink>
             </div>
             </Col>
           </Row>

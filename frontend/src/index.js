@@ -4,37 +4,38 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ErrorPage from './components/error-not-found';
-import NavMenu from './components/nav-menu';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ClientView from './views/ClientView';
 import ClientCreate from './views/ClientCreate';
 import ClientEdit from './views/ClientEdit';
+import PageRoot from './views/PageRoot';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <ClientCreate/>,
+    element: <PageRoot />,
     errorElement: <ErrorPage/>,
+    children:
+    [{
+      path: "/incluir",
+      element: <ClientCreate/>
+    },
+    {
+      path: "/ver",
+      element: <ClientView/>
+    },
+    {
+      path: "/editar/:personId",
+      element: <ClientEdit/>,
+    }]
   },
-  {
-    path: "/incluir",
-    element: <ClientCreate/>
-  },
-  {
-    path: "/ver",
-    element: <ClientView/>
-  },
-  {
-    path: "/editar/:personId",
-    element: <ClientEdit/>,
-  },
+  
 
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <main>
-    <NavMenu/>
     <React.StrictMode>
       <RouterProvider router={router} />
     </React.StrictMode>
